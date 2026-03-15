@@ -1,0 +1,2 @@
+[console_scripts]
+niche-scout = niche_scout.cli:app

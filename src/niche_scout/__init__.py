@@ -1,0 +1,1 @@
+"""Etsy Niche Scout package."""

@@ -1,0 +1,91 @@
+{
+  "generated_at": "2026-03-15T18:00:00Z",
+  "seeds": ["realtor template", "therapy notes"],
+  "expanded_queries": ["realtor intake form", "therapy notes template"],
+  "results": [
+    {
+      "query": "realtor intake form",
+      "normalized_query": "realtor intake form",
+      "seed_query": "realtor template",
+      "search_url": "https://www.etsy.com/search?q=realtor+intake+form",
+      "result_count_text": "1,850 results",
+      "parsed_result_count": 1850,
+      "fetched_at": "2026-03-15T18:00:00Z",
+      "listings": [
+        {
+          "query": "realtor intake form",
+          "title": "realtor intake form editable template",
+          "price": 18.0,
+          "currency": "$",
+          "review_count": 25,
+          "star_rating": 4.9,
+          "shop_name": "ops forms co",
+          "bestseller": false,
+          "digital_product": true,
+          "listing_url": "https://www.etsy.com/listing/100",
+          "image_url": null,
+          "rank_position": 1
+        },
+        {
+          "query": "realtor intake form",
+          "title": "real estate buyer questionnaire canva bundle",
+          "price": 24.0,
+          "currency": "$",
+          "review_count": 180,
+          "star_rating": 4.8,
+          "shop_name": "agent toolkit",
+          "bestseller": true,
+          "digital_product": true,
+          "listing_url": "https://www.etsy.com/listing/101",
+          "image_url": null,
+          "rank_position": 2
+        }
+      ],
+      "errors": [],
+      "raw_html_path": null,
+      "screenshot_path": null
+    },
+    {
+      "query": "therapy notes template",
+      "normalized_query": "therapy notes template",
+      "seed_query": "therapy notes",
+      "search_url": "https://www.etsy.com/search?q=therapy+notes+template",
+      "result_count_text": "980 results",
+      "parsed_result_count": 980,
+      "fetched_at": "2026-03-15T18:00:00Z",
+      "listings": [
+        {
+          "query": "therapy notes template",
+          "title": "therapy soap notes editable pdf",
+          "price": 14.0,
+          "currency": "$",
+          "review_count": 12,
+          "star_rating": 4.7,
+          "shop_name": "therapy admin",
+          "bestseller": false,
+          "digital_product": true,
+          "listing_url": "https://www.etsy.com/listing/102",
+          "image_url": null,
+          "rank_position": 1
+        },
+        {
+          "query": "therapy notes template",
+          "title": "counseling notes canva worksheet bundle",
+          "price": 21.0,
+          "currency": "$",
+          "review_count": 88,
+          "star_rating": 4.9,
+          "shop_name": "therapy admin",
+          "bestseller": true,
+          "digital_product": true,
+          "listing_url": "https://www.etsy.com/listing/103",
+          "image_url": null,
+          "rank_position": 2
+        }
+      ],
+      "errors": [],
+      "raw_html_path": null,
+      "screenshot_path": null
+    }
+  ]
+}

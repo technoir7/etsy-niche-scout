@@ -1,0 +1,70 @@
+paths:
+  raw_dir: data/raw
+  processed_dir: data/processed
+  reports_dir: data/reports
+  screenshot_dir: data/raw/screenshots
+  html_cache_dir: data/raw/html-cache
+runtime:
+  headless: true
+  locale: en-US
+  timezone: America/Los_Angeles
+  timeout_ms: 25000
+  delay_ms: 1200
+  retries: 3
+  top_n: 24
+  output_stem: latest
+  browser_channel: null
+  use_html_cache: false
+etsy:
+  base_url: https://www.etsy.com/search
+expansion:
+  max_candidates_per_seed: 20
+  stopwords:
+    - for
+    - and
+    - the
+    - a
+    - an
+  strip_tokens:
+    - printable
+    - instant
+    - download
+  intent_tokens:
+    - template
+    - intake form
+    - questionnaire
+    - checklist
+    - planner
+    - tracker
+    - form
+    - worksheet
+    - bundle
+    - spreadsheet
+    - guide
+    - pdf
+  modifiers:
+    - editable
+    - canva
+    - printable
+    - digital
+  phrase_templates:
+    - "{core} {intent}"
+    - "{core} {modifier} {intent}"
+    - "{variant} {intent}"
+    - "{variant} {modifier} {intent}"
+    - "{core} bundle"
+  synonym_map:
+    realtor:
+      - real estate agent
+      - real estate buyer
+      - real estate seller
+    therapy:
+      - therapist
+      - counseling
+    notes:
+      - soap note
+      - progress note
+    airbnb:
+      - vacation rental
+      - short term rental
+      - host

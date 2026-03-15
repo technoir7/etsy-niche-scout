@@ -1,0 +1,48 @@
+search:
+  result_count:
+    - "span.wt-text-caption"
+    - "div[data-search-results-count]"
+    - "[data-testid='search-results-count']"
+    - "h1 + p"
+    - "main p"
+  listing_cards:
+    - "li[data-listing-id]"
+    - "div[data-listing-card-v2]"
+    - "[data-testid='listing-card']"
+    - "li.wt-list-unstyled"
+listing:
+  title:
+    - "h3"
+    - "[data-test-id='listing-card-title']"
+    - "[data-testid='listing-card-title']"
+  url:
+    - "a[href*='/listing/']"
+    - "[data-testid='listing-link']"
+  shop_name:
+    - ".shop-name"
+    - "[data-test-id='shop-name']"
+    - "[data-shop-name]"
+    - "p"
+  price:
+    - "[data-test-id='price']"
+    - "[data-testid='price']"
+    - ".currency-value"
+    - "p"
+  rating:
+    - "[aria-label*='star rating']"
+    - "[aria-label*='out of 5 stars']"
+    - "[data-rating]"
+  reviews:
+    - "[aria-label*='reviews']"
+    - "[data-review-count]"
+    - "span"
+  bestseller:
+    - "[data-test-id='bestseller']"
+    - "[data-testid='bestseller']"
+    - "span"
+  digital:
+    - "[data-test-id='digital-download']"
+    - "[data-testid='digital-download']"
+    - "span"
+  image:
+    - "img"

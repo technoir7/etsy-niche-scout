@@ -1,0 +1,309 @@
+Metadata-Version: 2.4
+Name: etsy-niche-scout
+Version: 0.1.0
+Summary: Local-first Etsy niche research tool for digital products.
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: jinja2>=3.1
+Requires-Dist: pandas>=2.2
+Requires-Dist: playwright>=1.52
+Requires-Dist: pydantic>=2.7
+Requires-Dist: PyYAML>=6.0
+Requires-Dist: rapidfuzz>=3.9
+Requires-Dist: rich>=13.7
+Requires-Dist: streamlit>=1.44
+Requires-Dist: tenacity>=8.3
+Requires-Dist: typer>=0.12
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2; extra == "dev"
+
+# Etsy Niche Scout
+
+Etsy Niche Scout is a local-first research system for Etsy digital-product niche discovery. It combines first-page Etsy signals, external keyword metrics, explainable clustering, family scoring, deterministic launch recommendations, comparison tooling, and a local Streamlit dashboard.
+
+It is a decision-support tool, not a search-volume oracle.
+
+## Setup
+
+Create a virtual environment and install the project with dev dependencies:
+
+```bash
+cd /home/aaron/code/etsy-niche-scout
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install --upgrade pip
+pip install -e ".[dev]"
+```
+
+`PyYAML` is included in the project dependencies and provides the `yaml` import used by [src/niche_scout/config.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/config.py).
+
+Install Playwright browsers:
+
+```bash
+playwright install chromium
+```
+
+On Linux, Playwright may also need OS-level browser dependencies. Prefer the official install path:
+
+```bash
+playwright install --with-deps chromium
+```
+
+If you already installed Chromium but still see Linux dependency warnings, run:
+
+```bash
+playwright install-deps
+```
+
+Run the lightweight preflight check:
+
+```bash
+python3 scripts/check_env.py
+```
+
+Optional environment defaults:
+
+```bash
+cp .env.example .env
+```
+
+## Core Commands
+
+Expand seed phrases:
+
+```bash
+niche-scout expand "realtor template" "therapy notes"
+```
+
+Run a live Etsy scan and full scoring pipeline:
+
+```bash
+niche-scout scan "realtor template" "airbnb host" --top-n 24
+```
+
+Reuse cached HTML or force refresh:
+
+```bash
+niche-scout scan "realtor template" --use-cache
+niche-scout scan "realtor template" --refresh-cache
+```
+
+Score a saved raw Etsy run:
+
+```bash
+niche-scout score data/raw/latest.json
+```
+
+Generate a Markdown report from processed output:
+
+```bash
+niche-scout report data/processed/latest.json --format markdown
+```
+
+## External Metrics Import
+
+Normalize an external metrics CSV:
+
+```bash
+niche-scout import metrics path/to/erank.csv --source erank
+```
+
+Enrich an existing processed run with imported metrics:
+
+```bash
+niche-scout enrich data/processed/latest.json --metrics path/to/erank.csv --source erank
+```
+
+If you pass a CSV instead of JSON, the CLI warns that it only performs a column join and does not recalculate scores or recommendations.
+
+The importer is generic and config-driven. Column aliases live in [config/importers.yaml](/home/aaron/code/etsy-niche-scout/config/importers.yaml). The current default target is eRank-style CSVs with tolerant matching for messy headers like `Keyword Phrase`, `Search Volume`, `CTR`, and `Average Price`.
+
+Additional presets are included for `everbee` and `marmalead`.
+
+Imported metrics are matched onto keywords using:
+
+1. normalized keyword exact match
+2. canonical profession + product + core signature
+3. canonical profession + product family fallback
+
+Imported metrics are merged into:
+
+- `search_volume`
+- `clicks`
+- `ctr`
+- `competition`
+- `trend`
+- `avg_price`
+- `external_metrics_score`
+- `import_impact_score`
+
+Base Etsy score stays visible as `total_score`. Import-enriched rank uses `blended_score`.
+
+## Clusters And Families
+
+Show cluster-level family summaries:
+
+```bash
+niche-scout families data/processed/latest.json
+niche-scout families data/processed/latest.json --full
+```
+
+Family analysis is built around:
+
+- canonical profession detection
+- canonical product-type detection
+- normalized core tokens
+- fuzzy near-duplicate grouping
+- family-level width and expansion scoring
+
+Each family includes:
+
+- `family_score`
+- `family_width`
+- `expansion_potential_score`
+- `bundle_potential_score`
+- `family_type`
+- `launch_strategy`
+
+The tool is trying to answer whether a niche is a `quick test`, `scalable family`, `monitor`, or `avoid`.
+
+## Historical Comparison
+
+Compare two processed runs:
+
+```bash
+niche-scout compare data/processed/run_a.json data/processed/run_b.json
+```
+
+Comparison outputs include:
+
+- delta CSV
+- comparison JSON
+- Markdown comparison summary
+
+The comparison detects:
+
+- new keywords
+- removed keywords
+- score deltas
+- cluster changes
+- imported metric changes such as search volume or competition moves
+
+## Dashboard
+
+Launch the local Streamlit dashboard:
+
+```bash
+niche-scout dashboard --payload data/processed/latest.json
+niche-scout dashboard --payload data/processed/run_a.json --compare-payload data/processed/run_b.json
+```
+
+Dashboard sections:
+
+- Run overview
+- Keyword table
+- Cluster view
+- Listing inspector
+- Reports / exports
+
+The dashboard expects a processed JSON payload so it can show families and saved listing details.
+
+## Outputs
+
+- `data/raw/latest.json`: latest raw Etsy scan payload.
+- `data/raw/html-cache/`: cached search-page HTML for replay/debugging.
+- `data/raw/screenshots/`: HTML and screenshots saved on extraction failure.
+- `data/input/imported-metrics-*.csv|json`: normalized imported metrics.
+- `data/processed/latest.csv`: flattened keyword table.
+- `data/processed/families-latest.csv`: family-level CSV export.
+- `data/processed/listings-latest.csv`: flattened first-page listings export.
+- `data/processed/latest.json`: enriched ranked payload with families and listing context.
+- `data/reports/latest.md`: opportunity report.
+- `data/processed/comparison-*.csv|json`: run comparison artifacts.
+- `data/reports/comparison-*.md`: comparison report.
+
+## Reporting
+
+Processed JSON reports now include:
+
+- top keywords
+- top families
+- avoid list
+- import-impact notes
+- cluster/family notes
+
+Comparison reports summarize:
+
+- major score changes
+- cluster movement
+- new keywords
+- removed keywords
+
+## Config
+
+- [config/defaults.yaml](/home/aaron/code/etsy-niche-scout/config/defaults.yaml): runtime defaults and keyword expansion.
+- [config/scoring.yaml](/home/aaron/code/etsy-niche-scout/config/scoring.yaml): score weights, thresholds, `signal_weights`, and `external_score_caps`.
+- [config/selectors.yaml](/home/aaron/code/etsy-niche-scout/config/selectors.yaml): Etsy DOM selectors.
+- [config/importers.yaml](/home/aaron/code/etsy-niche-scout/config/importers.yaml): external CSV column aliases.
+- [config/clustering.yaml](/home/aaron/code/etsy-niche-scout/config/clustering.yaml): canonical lexicons and clustering/comparison thresholds.
+
+## Selector And Data Caveats
+
+- Etsy DOM structure still changes. The selectors are more resilient now, but [config/selectors.yaml](/home/aaron/code/etsy-niche-scout/config/selectors.yaml) remains the first place to adjust.
+- Cached HTML plus fixture replay tests make parser regressions debuggable without live Etsy access.
+- Result count is still a soft signal. The extractor falls back to body-text parsing, but Etsy can localize or suppress it.
+- Listing fields can still be partially missing. The extractor now falls back to card text blobs for price, review counts, and digital indicators.
+- Imported metrics are only as clean as the source CSV. Matching now records strategy and confidence to reduce opaque over-attachment.
+- `blended_score` is evidence-weighted, not ground truth. Base Etsy score and imported metrics remain separately visible by design.
+
+## Tests
+
+Run the unit test suite:
+
+```bash
+python3 -m pytest -q
+```
+
+Run the local smoke path:
+
+```bash
+bash scripts/smoke_test.sh
+```
+
+The smoke test assumes:
+
+- the project is already installed with `pip install -e ".[dev]"`
+- Playwright Python package is installed
+- Playwright browsers are installed if you plan to run live scans later
+
+If required Python modules are missing, `scripts/check_env.py` will fail early with the missing package names and the install command to run.
+
+Current test coverage includes:
+
+- keyword expansion and normalization
+- Etsy text parsing helpers
+- HTML fixture replay parsing
+- external CSV import normalization
+- import merge logic
+- clustering improvements
+- family scoring
+- comparison logic
+
+## Module Map
+
+- [src/niche_scout/cli.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/cli.py): CLI commands.
+- [src/niche_scout/main.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/main.py): orchestration.
+- [src/niche_scout/importers.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/importers.py): external metrics import and enrichment.
+- [src/niche_scout/clustering.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/clustering.py): canonicalization and family clustering.
+- [src/niche_scout/family_analysis.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/family_analysis.py): family scoring.
+- [src/niche_scout/recommender.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/recommender.py): keyword and family launch briefs.
+- [src/niche_scout/comparison.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/comparison.py): historical run comparison.
+- [src/niche_scout/dashboard.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/dashboard.py): Streamlit dashboard.
+- [src/niche_scout/exporters.py](/home/aaron/code/etsy-niche-scout/src/niche_scout/exporters.py): CSV, JSON, Markdown, comparison exports.
+
+## Fastest Next Improvements
+
+- Add HTML fixture replay tests that run against saved Etsy fragments, not just text blobs.
+- Add local response caching for raw Etsy HTML to make rescans and parser debugging cheaper.
+- Add dashboard diff views for side-by-side family comparisons across runs.
+- Add source-specific importer presets for EverBee and Marmalead on top of the generic mapping layer.

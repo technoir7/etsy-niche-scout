@@ -1,0 +1,85 @@
+thresholds:
+  duplicate_similarity: 90.0
+  family_similarity: 78.0
+  min_core_overlap: 1
+  significant_score_delta: 8.0
+  significant_metric_delta: 10.0
+  scale_warning_threshold: 150
+lexicon:
+  stopwords:
+    - for
+    - and
+    - with
+    - the
+    - a
+    - an
+    - printable
+    - editable
+    - canva
+    - pdf
+    - digital
+    - instant
+    - download
+  filler_tokens:
+    - form
+    - forms
+    - template
+    - templates
+    - bundle
+    - planner
+    - planner
+    - worksheet
+    - tracker
+    - checklist
+  profession_aliases:
+    realtor: real estate
+    real estate agent: real estate
+    real estate: real estate
+    broker: real estate
+    therapist: therapy
+    therapy: therapy
+    counseling: therapy
+    counselor: therapy
+    airbnb: vacation rental
+    vacation rental: vacation rental
+    short term rental: vacation rental
+    host: host
+    teacher: education
+    tutor: education
+    photographer: photography
+    photographer contract: photography
+    coach: coaching
+    consultant: consulting
+    freelancer: freelancing
+  product_aliases:
+    intake form: intake form
+    buyer questionnaire: intake form
+    questionnaire: intake form
+    onboarding: onboarding
+    onboarding packet: onboarding
+    checklist: checklist
+    tracker: tracker
+    worksheet: worksheet
+    planner: planner
+    template: template
+    templates: template
+    bundle: bundle
+    guide: guide
+    soap note: notes
+    progress note: notes
+    notes: notes
+    price sheet: pricing
+    welcome book: welcome book
+    contract: contract
+    invoice: invoice
+    pricing guide: pricing
+  personas:
+    real estate: busy solo realtor or transaction coordinator
+    therapy: private-practice therapist or clinic admin
+    vacation rental: airbnb or vacation rental host
+    host: operations-minded host or co-host
+    education: teacher or tutor selling practical classroom resources
+    photography: service-based studio owner
+    coaching: coach selling process assets or client tools
+    consulting: consultant packaging operational templates
+    freelancing: freelancer standardizing client-facing admin

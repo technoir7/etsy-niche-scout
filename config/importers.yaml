@@ -1,0 +1,108 @@
+sources:
+  default:
+    keyword:
+      - keyword
+      - key phrase
+      - keyphrase
+      - phrase
+      - query
+      - search term
+      - term
+    search_volume:
+      - search volume
+      - searches
+      - avg searches
+      - monthly searches
+      - monthly search volume
+    clicks:
+      - clicks
+      - click volume
+      - estimated clicks
+    ctr:
+      - ctr
+      - click through rate
+      - click-through rate
+    competition:
+      - competition
+      - comp
+      - keyword competition
+    trend:
+      - trend
+      - trend score
+      - growth
+    avg_price:
+      - average price
+      - avg price
+      - price
+  erank:
+    keyword:
+      - keyword
+      - keyword phrase
+      - search term
+    search_volume:
+      - search volume
+      - avg searches
+      - searches
+    clicks:
+      - clicks
+      - estimated clicks
+    ctr:
+      - ctr
+      - click through rate
+    competition:
+      - competition
+      - comp
+    trend:
+      - trend
+      - trend score
+    avg_price:
+      - average price
+      - avg price
+  everbee:
+    keyword:
+      - keyword
+      - phrase
+      - search term
+    search_volume:
+      - search volume
+      - monthly search volume
+      - volume
+    clicks:
+      - clicks
+      - estimated clicks
+    ctr:
+      - ctr
+      - click through rate
+    competition:
+      - competition
+      - competitors
+    trend:
+      - trend
+      - trend score
+    avg_price:
+      - average price
+      - avg price
+  marmalead:
+    keyword:
+      - keyword
+      - search query
+      - phrase
+    search_volume:
+      - search volume
+      - engagement
+      - searches
+    clicks:
+      - clicks
+      - engagement clicks
+    ctr:
+      - ctr
+      - click rate
+    competition:
+      - competition
+      - market competition
+    trend:
+      - trend
+      - seasonality
+    avg_price:
+      - average price
+      - avg price
